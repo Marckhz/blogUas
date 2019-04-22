@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% from 'helpers/_forms.html' import render_field %}
+
+
+{% block content %}
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title"> Problem</h5>
+		</div>
+		<div class="p"> {{ problem }}</div>
+		{{ email }}
+		{{stage}}
+		{{ industry }}
+	</div>
+{% endblock %}

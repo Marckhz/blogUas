@@ -1,0 +1,140 @@
+{% extends 'bootstrap/base.html' %}
+{% from 'helpers/_forms.html' import render_field %}
+
+
+
+
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+{% block scripts %}
+<script src="{{url_for('static', filename='js/myscripts.js')}}"></script>
+{{super()}}
+
+
+{% endblock %}
+{% block title %}
+	
+	{{ title }}
+
+{% endblock %}
+
+{% block navbar %}
+	
+	<div class="d-none d-lg-block">
+		<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003B8E">
+			<div class="container">
+
+				<a class="navbar-brand" href="">
+					<img src="{{ url_for('static', filename='img/uas.png') }}" alt="">
+				</a>
+				<div class="row ml-auto mx-auto text-center" style="color: white;">
+					<div class="col">
+						<h2>Universidad Autonoma de Sinaloa</h2><br>
+						<h3>Unidad Academica Preparatoria Navolato</h3>
+					</div>
+				</div>
+				<a class="navbar-brand order-md-last" href="">
+					<img src="{{ url_for('static', filename='img/consolidacion.png') }}" alt="">
+				</a>
+			</div>
+
+		</nav>
+	</div>
+	<nav class="navbar navbar-expand-lg d-none d-lg-block" style="background-color: #AF8514">
+			<div class="container text-center">
+						<ul class="navbar-nav ml-auto mx-auto">
+							<li class="nav-item active">
+								<a class="nav-link" href="#">Inicio</a>
+							</li>
+							<li class="nav-item active">
+								<a class="nav-link" href="#">Plan Curricular</a>
+							</li>
+							<li class="nav-item active">
+								<a class="nav-link" href="#">Calendario Escolar</a>
+							</li>
+							<li class="nav-item active">
+								<a class="nav-link" href="">Programas</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="">Organigramas</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="">Mision</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="">Directorio</a>
+							</li>
+						</ul>
+					</div>
+			</div>
+		
+		</nav>
+	
+			<div class="side-bar d-sm-block d-lg-none" id="nav-mobile">
+				<nav class="navbar navbar-expand-lg" style="background-color: #003B8E" >
+					<div class="container text-center">
+						 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+							  	<span class="navbar-toggler-icon" onclick="openNav()"></span>
+						</button>
+						<a  class="navbar-brand" href=""><img src="{{ url_for('static', filename='img/uas.png') }}" style="height: 50px;"  alt=""></a>
+					</div>	
+							<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+								<ul class="navbar-nav ml-auto mx-auto">
+									<li class="nav-item active">
+										<a class="nav-link" href="#">Inicio</a>
+									</li>
+									<li class="nav-item active">
+										<a class="nav-link" href="#">Plan Curricular</a>
+									</li>
+									<li class="nav-item active">
+										<a class="nav-link" href="#">Calendario Escolar</a>
+									</li>
+									<li class="nav-item active">
+										<a class="nav-link" href="">Programas</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="">Organigramas</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="">Mision</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="">Directorio</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+				</nav>
+			</div>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-md-offset1">
+				{% with messages = get_flashed_messages(with_categories=true) %}
+					{% if messages %}
+						{% for category, message in messages %}
+						<div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+						{% endfor %}
+					{% endif %}
+				{% endwith %}
+
+			</div>
+
+			{%  block container %}
+		
+			{% endblock %}
+
+		</div>
+	</div>
+
+
+
+{% endblock %}
+
+
+

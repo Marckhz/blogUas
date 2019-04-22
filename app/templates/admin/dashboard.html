@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% from 'helpers/_forms.html' import render_field %}
+
+
+{% block container %}
+	<p>hola</p>
+
+	
+	<div class="container">
+
+		<form action="/admin/carousel/" method="post" enctype="multipart/form-data>">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+			<div class="row">
+				<div class="col">
+					<input type="file" name="file_one">
+					<input type="submit" value="Upload">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<input type="file" name="file_two">
+					<input type="submit" value="Upload">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<input type="file" name="file_two">
+					<input type="submit" value="Upload">
+				</div>
+			</div>
+			
+		</form>
+	</div>
+{% endblock %}
+
