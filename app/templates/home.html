@@ -2,7 +2,7 @@
 {% from 'helpers/_forms.html' import render_field %}
 
 
-{% block container %}
+{% block content %}
 	
 	<div class="container mycarousel">
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -32,5 +32,65 @@
 		  </a>
 		</div>
 	</div>
+	{{ current_user.username }}
+
+
+	<section style="margin-top: 20px;">
+		<div class="text-center" style="margin-bottom: 50px;">
+			<h1 >Ultimas Noticias y eventos</h1>			
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<hr  class="rounded mx-auto d-block" style="width: 100%; background-color: #AF8514">
+				</div>
+				<div class="col">
+					
+				</div>
+				<div class="col">
+					<hr class="rounded mx-auto d-block" style="width: 100%; background-color: #AF8514">
+				</div>
+			</div>
+		</div>
+		
+
+		<div class="container posts-container" style="margin-top: 50px;">
+			<div class="row justify-content-center">
+				{% for item in posts %}
+				<div class="col-lg-4" style="margin-top:25px;">
+					<div class="card">
+					  <img class="card-img-top" src="data:image/png;base64,{{ item.image }}"  style="height: 250px;" alt="Card image cap">
+					  <div class="card-body">
+					    <h5 class="card-title" style="font-weight: bold;">{{ item.title }}</h5>
+					    <p class="card-text text-truncate" style="height: 100px;">{{ item.body }}</p>
+					    <div class="row">
+					    	<div class="col">
+					    		<span><p class="float-left font-weight-bold" style="font-size:12px;">Creado:<br>{{ item.posted_date }}</p></span>
+					    	</div>
+					    	<div class="col">
+					    		<a href="#" class="btn text-white float-right" style="background-color: #AF8514;">Leer mas</a>
+					    	</div>
+					    </div>
+					  </div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+
+	</section>
+
+
+{% block footer %}
+	<footer>
+		<div class="container-fluid footy" style="background-color: #003B8E">
+			<div class="row">
+				<div class="col" style="height: 100px;">
+				</div>
+			</div>
+		</div>
+	</footer>
+{% endblock %}
 
 {% endblock %}

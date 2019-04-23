@@ -5,6 +5,9 @@ from flask import request, jsonify
 
 
 from . import mongo
+from . import bcrypt
+from datetime import datetime
+
 
 import os
 
@@ -16,6 +19,7 @@ from . import login_manager
 
 
 from .forms import LoginForm
+from .forms import NewPost
 
 from .model import User
 
@@ -25,96 +29,137 @@ page = Blueprint('page', __name__)
 
 
 @login_manager.user_loader
-def load_user(user_id):
-  mongo_user = mongo.db.users.find_one({"email":user_id })
-  return User(user_id)
+def load_user(username):
+  mongo_user = mongo.db.users.find_one({"username":username})
+  return User(mongo_user['username'])
 
 
 @page.route('/', methods =['GET', 'POST'])
 def index():
 
-  #form = LoginForm()
-
-  #query = mongo.db.problems.find({})
-
-  return render_template('home.html')
+  posts = mongo.db.posts.find({})
 
 
-@page.route('/login', methods = ['GET', 'POST'])
+  return render_template('home.html',posts=posts )
+
+
+@page.route('/admin/login/', methods = ['GET', 'POST'])
 def login():
 
   form = LoginForm(request.form)
-  find_user = None
+  super_user = None
 
   if request.method == 'POST':
-    find_user = mongo.db.users.find_one({"username":form.username.data,
-                                        "password":form.password.data})
-    if find_user is not None:
-      instance_user = User(find_user['email'])
-      if instance_user.email == find_user['email']:
-        login_user(instance_user)
-        session['username'] = instance_user.email
-        print(instance_user.email)
-        flash('Hemos enviado un link para su inicio de sesion', 'success') 
+    super_user = mongo.db.superusers.find_one({"username":form.username.data})
 
-    if find_user is None:
-      mongo.db.users.insert_one({"username":form.email.data})
-      flash('Lo estamos redireccionando para completar su registro', 'primary')
-      return redirect(url_for('page.register'))
-
-  return render_template('layout.html', title= 'Login', form = form)
+    if super_user is not None:
+      if bcrypt.check_password_hash(super_user['password'], form.password.data):
+        user_obj = User(super_user['username'])
+        user_obj.is_authenticated = True
+        login_user(user_obj)
+        print(user_obj.username)
+        session['username'] = user_obj.username
+        flash('Login sucessful', 'success')
+        return render_template('home.html')
+    
+    if super_user is None or bcrypt.check_password_hash(super_user['password'], form.password.data) != form.password.data:
+      flash("are you really super user?", "danger")
 
 
-@page.route('/add_a_problem', methods = ['GET', 'POST'])
-def add_problem():
+  return render_template('admin/login.html', title= 'Login', form = form)
 
-  problemForm = ProblemForm(request.form )
-  form = LoginForm()
+@page.route('/admin/logout', methods =['GET', 'POST'])
+@login_required
+def logout():
+
+  user_obj = current_user
+  user_obj.is_authenticated = False
+  logout_user()
+
+  return render_template('admin/login.html')
+
+
+
+@page.route('/admin/dashboard/', methods=['GET', 'POST'])
+@login_required
+def dashboard():
+
+  form = NewPost()
+
+  return render_template('admin/dashboard.html', form=form)
+
+
+@page.route('/admin/dashboard/post/', methods = ['GET', 'POST'])
+@login_required
+def new_post():
+  
+  form = NewPost(request.form )
+  error = None
+  
   if request.method == 'POST':  
     file = request.files['file']
     file_to_b64 = base64.b64encode(file.read() )
-
-    #falta un campo de descripcion
-    find_user = mongo.db.problems.insert({"email":session['username'],
-                    "problemName":problemForm.problem_description.data,
-                    "industry":problemForm.industry.data,
-                    "stage":problemForm.stage.data,
-                    "company":problemForm.company.data,
-                    "company_tagline":problemForm.company_tagline.data,
-                    "image":file_to_b64.decode("utf-8")
+    find_user = mongo.db.posts.insert({"email":session['username'],
+                                          "title":form.title.data,
+                                          "body":form.body.data,
+                                          "posted_date":datetime.now(),
+                                          "image":file_to_b64.decode("utf-8")
               
-              })
-    print(file_to_b64)
-  return render_template('add_problem.html', title='add problem', form=form, problemForm= problemForm)
+                                          })
+    flash('Nuevo Post', 'success')
+    error = True
+    return redirect('admin/dashboard/')
 
 
-@page.route('/admin/carousel/', methods= ['GET', 'POST'])
+  if error is None:
+    flash('error', 'danger')
+    
+    flash('upps...hay un problema', 'danger')
+  return render_template('admin/dashboard.html', title='add problem', form=form,)
+  
+
+
+
+@page.route('/admin/dashboard/caraousel/', methods= ['GET', 'POST'])
+@login_required
 def upload_carousel():
 
+  error = None
+
   if request.method =='POST':
-    file_one = request.file['file_one']
+    file_one = request.files['file_one']
     file_one_to_b64 = base64.b64encode(file_one.read() )
 
-    file_two = request.file['file_two']
+    file_two = request.files['file_two']
     file_two_to_b64 = base64.b64encode(file_two.read() )
     
-    file_three = request.file['file_three']
+    file_three = request.files['file_three']
     file_three_to_b64 = base64.b64encode(file_three.read() )
 
-
-    find_user = mongo.db.carousel.find_one_and_update({"username":session['username']},
-                                                      {"$set":{"image_one":file_one_to_b64.decode("utf-8"),
-                                                              "image_two":file_two_to_b64.decode("utf-8"),
-                                                              "image_three":file_three_to_b64.decode("utf-8")
-                                                            
-                                                            }
-                                                            })
-
+    if mongo.db.caraousel.find_one({"username":session['username']}):
+      mongo.db.caraousel.find_one_and_update({"username":session['username']},
+                                                        {"$set":{"image_one":file_one_to_b64.decode("utf-8"),
+                                                                "image_two":file_two_to_b64.decode("utf-8"),
+                                                                "image_three":file_three_to_b64.decode("utf-8")
+                                                              
+                                                              }
+                                                              })
+      flash('Nuevo carrusel', 'success')
+      error = True
+      return redirect('admin/dashboard/')
+    else:
+      mongo.db.caraousel.insert({"username":session['username'],
+                              "image_one":file_one_to_b64.decode("utf-8"),
+                              "image_two":file_two_to_b64.decode("utf-8"),
+                              "image_three":file_three_to_b64.decode("utf-8")
+                              })
+    if error is None:
+      flash('algo salio mal', 'danger')
 
   return render_template('admin/dashboard.html')
 
 
-@page.route('/problem_description/<problem>')
+@page.route('/blog/posts/int:<_id>')
 def get_problem(problem):
 
   for index in mongo.db.users.find({}):
@@ -125,7 +170,6 @@ def get_problem(problem):
       stage = item['stage']
 
   return render_template('show.html', problem=problem, email = email, industry=industry, stage=stage, title='show')
-
 
 
 
