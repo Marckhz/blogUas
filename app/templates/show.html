@@ -2,14 +2,27 @@
 {% from 'helpers/_forms.html' import render_field %}
 
 
-{% block content %}
-	<div class="card">
-		<div class="card-body">
-			<h5 class="card-title"> Problem</h5>
+{%  block content %}
+
+	<div class="container">
+		<h1 class="font-weight-bold text-center" style="margin: 25px;">{{ post.title }}</h1>
+
+		<div class="card" style="margin-bottom: 25px;">
+		  <img class="card-img-bottom img-fluid" src="data:image/png;base64,{{ post.image }}" alt="Card image cap">
+		  <div class="card-body">
+		    <p class="card-text">Publicado el {{ post.posted_date }}</p>
+		    <p style="font-size: 24px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt odit dolore aperiam a, nulla, quia cupiditate quae eaque illum minus rerum accusantium laudantium exercitationem tempore cum. Neque corrupti vel earum.</p>
+		  </div>
 		</div>
-		<div class="p"> {{ problem }}</div>
-		{{ email }}
-		{{stage}}
-		{{ industry }}
 	</div>
-{% endblock %}
+	{% block footer %}
+	<footer>
+		<div class="container-fluid footy" style="background-color: #003B8E">
+			<div class="row">
+				<div class="col" style="height: 100px;">
+				</div>
+			</div>
+		</div>
+	</footer>
+	{% endblock footer %}
+{% endblock content %}

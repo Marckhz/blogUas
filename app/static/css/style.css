@@ -4,10 +4,6 @@ nav ul li a {
 	font-weight: bold;
 }
 
-.mycarousel {
-
-	margin-top: 20px;
-}
 
 #nav-mobile ul li a {
 
@@ -28,10 +24,15 @@ nav ul li a {
 
 @media only screen 
  	and (min-device-width: 375px) 
-  	and (max-device-width: 600px) 
+  	and (max-device-width: 768px) 
   	and (-webkit-min-device-pixel-ratio: 3) { 
 
   	.card{ width: 32rem; }
+  	.carousel-item img {
+  		height: 50px;
+  	}
+
+  	
 
 }
 
@@ -44,3 +45,4 @@ footer {
 
 	margin-top: 50px;
 }
+

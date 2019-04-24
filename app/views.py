@@ -39,8 +39,12 @@ def index():
 
   posts = mongo.db.posts.find({})
 
+  carrusel = mongo.db.caraousel.find({})
 
-  return render_template('home.html',posts=posts )
+  #for item in carousel:
+   # print(item['image_one'])
+
+  return render_template('home.html',posts=posts, carrusel=carrusel)
 
 
 @page.route('/admin/login/', methods = ['GET', 'POST'])
@@ -60,7 +64,7 @@ def login():
         print(user_obj.username)
         session['username'] = user_obj.username
         flash('Login sucessful', 'success')
-        return render_template('home.html')
+        return redirect('/admin/dashboard/')
     
     if super_user is None or bcrypt.check_password_hash(super_user['password'], form.password.data) != form.password.data:
       flash("are you really super user?", "danger")
@@ -68,7 +72,7 @@ def login():
 
   return render_template('admin/login.html', title= 'Login', form = form)
 
-@page.route('/admin/logout', methods =['GET', 'POST'])
+@page.route('/admin/logout/', methods =['GET', 'POST'])
 @login_required
 def logout():
 
@@ -102,7 +106,7 @@ def new_post():
     find_user = mongo.db.posts.insert({"email":session['username'],
                                           "title":form.title.data,
                                           "body":form.body.data,
-                                          "posted_date":datetime.now(),
+                                          "posted_date":datetime.today(),
                                           "image":file_to_b64.decode("utf-8")
               
                                           })
@@ -159,17 +163,20 @@ def upload_carousel():
   return render_template('admin/dashboard.html')
 
 
-@page.route('/blog/posts/int:<_id>')
-def get_problem(problem):
-
-  for index in mongo.db.users.find({}):
-    email = index['email']
-    for item in index['added_problems']:
-      problem = item['problemName']
-      industry = item['industry']
-      stage = item['stage']
-
-  return render_template('show.html', problem=problem, email = email, industry=industry, stage=stage, title='show')
+@page.route('/show/<post_id>/', methods=['GET', 'POST'])
+def get_post(post_id):
 
 
+  post = mongo.db.posts.find_one_or_404({"title":post_id})
+  return render_template('show.html', post=post)
 
+
+@page.route('/home/calendario/', methods=['GET'])
+def calendario():
+  return render_template('calendario.html')
+
+
+@page.route('/home/programas/', methods = ['GET'])
+def programas():
+
+  return render_template('programas.html')
