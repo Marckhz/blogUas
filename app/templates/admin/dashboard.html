@@ -28,6 +28,9 @@
 			  <li class="nav-item">
 			    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Nuevo Post</a>
 			  </li>
+			  <li class="nav-item">
+			  	<a class="nav-link" id ="team-tab" data-toggle="tab" href="#team" role="tab" aria-contros="team" aria-selected ="false">Agreagar Personal</a>
+			  </li>
 			</ul>
 			<div class="tab-content" id="myTabContent">
 			  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -81,7 +84,6 @@
 					</div>
 
 			</form>
-
 			  </div>
 			  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 			  	<form action="/admin/dashboard/post/" method="post" enctype="multipart/form-data">
@@ -117,10 +119,9 @@
 			  		<button type="submit" class="btn btn-primary btn-block" style="width: 50%; margin: auto;">Post</button>
 
 			  		
-			  	</form>
-			  	
+			  	</form> 	
 			  </div>
-			  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+			  <div class="tab-pane fade" id="team" role="tabpanel" aria-labelledby="team-tab">
 			  	<form action="/admin/dashboard/uploadTeam/" method="post" enctype="multipart/form-data">
 			  		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 			  		<div class="row">
@@ -133,14 +134,21 @@
 			  		<div class="row">
 			  			<div class="col">
 			  				<div class="form-group">
-			  					{{ render_field( teamForm.position, class='form-control', placeholder='Puesto' )}}
+			  					{{ render_field( teamForm.departament, class='form-control', placeholder='Departamento')}}
 			  				</div>
 			  			</div>
 			  		</div>
 			  		<div class="row">
 			  			<div class="col">
 			  				<div class="form-group">
-			  					{{ render_field( teamForm.phone, class='form-control', placeholder='Numero Telefonico') }}
+			  					{{ render_field (teamForm.charge, class='form-control', placeholder='Puesto')}}
+			  				</div>
+			  			</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col">
+			  				<div class="form-group">
+			  					{{ render_field( teamForm.phone, class='form-control', placeholder='Numero Telefonico')}}
 			  				</div>
 			  			</div>
 			  		</div>

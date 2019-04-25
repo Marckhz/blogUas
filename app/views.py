@@ -90,8 +90,9 @@ def logout():
 def dashboard():
 
   form = NewPost()
+  teamForm = TeamForm()
 
-  return render_template('admin/dashboard.html', form=form)
+  return render_template('admin/dashboard.html', form=form, teamForm = TeamForm() )
 
 
 @page.route('/admin/dashboard/post/', methods = ['GET', 'POST'])
@@ -99,6 +100,7 @@ def dashboard():
 def new_post():
   
   form = NewPost(request.form )
+  teamForm = TeamForm()
   error = None
   
   if request.method == 'POST':  
@@ -120,7 +122,7 @@ def new_post():
     flash('error', 'danger')
     
     flash('upps...hay un problema', 'danger')
-  return render_template('admin/dashboard.html', title='add problem', form=form,)
+  return render_template('admin/dashboard.html', title='add problem', form=form, teamForm = teamForm)
   
 
 
@@ -169,21 +171,27 @@ def teamUpload():
 
 
   teamForm = TeamForm(request.form)
+  form = NewPost()
 
 
   if request.method == 'POST':
-    pass
+    file = request.files['file']
+    file_to_b64 = base64.b64encode(file.read() )
+    mongo.db.team.insert({"name":teamForm.name.data,
+                          "departament":teamForm.departament.data,
+                          "charge":teamForm.charge.data,
+                          "phone":teamForm.phone.data,
+                          "email":teamForm.email.data,
+                          "image":file_to_b64.decode('utf-8') })
+    
+    flash('Personal Agregado', 'success')
 
-  return render_template('admin/dashboard.html', teamForm = TeamForm)
+  return render_template('admin/dashboard.html', teamForm = teamForm, form= form)
 
 
 
-
-
-
-@page.route('/show/<post_id>/', methods=['GET', 'POST'])
+@page.route('/show/<post_id>/', methods=['GET'])
 def get_post(post_id):
-
 
   post = mongo.db.posts.find_one_or_404({"title":post_id})
   return render_template('show.html', post=post)
@@ -192,9 +200,6 @@ def get_post(post_id):
 def plan_curricular():
 
   return render_template('plan_curricular.html')
-
-
-
 
 @page.route('/home/calendario/', methods=['GET'])
 def calendario():
@@ -212,12 +217,17 @@ def mision():
   return render_template('mision.html')
 
 
-@page.route('/home/directorio/', methods=['GET'])
+@page.route('/home/directorio/', methods = ['GET'])
 def directorio():
 
+  team_query = mongo.db.team.find({})
+
+  return render_template('directorio.html', team_query = team_query)
 
 
 
+@page.route('/home/directorio/show/<position_id>/', methods=['GET'])
+def get_team(position_id):
 
-
-  return render_template('directorio.html')
+  personal = mongo.db.team.find_one_or_404({"departament":position_id})
+  return render_template('show_personal.html', personal = personal)

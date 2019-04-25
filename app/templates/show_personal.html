@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+{% from 'helpers/_forms.html' import render_field %}
+
+
+{%  block content %}
+
+	<div class="container">
+		<h1 class="font-weight-bold text-center" style="margin: 25px;">{{ personal.departament }}</h1>
+
+		<div class="card" style="margin-bottom: 25px;">
+		  <img class="card-img-bottom img-fluid" src="data:image/png;base64,{{ personal.image }}" alt="Card image cap">
+		  <div class="card-body">
+		    <h2 class="card-text font-weight-bold text-center">{{ personal.name }}</h2>
+		    <p style="font-size: 24px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt odit dolore aperiam a, nulla, quia cupiditate quae eaque illum minus rerum accusantium laudantium exercitationem tempore cum. Neque corrupti vel earum.</p>
+		  </div>
+		</div>
+	</div>
+	{% block footer %}
+	<footer>
+		<div class="container-fluid footy text-center" style="background-color: #003B8E; color: white; padding: 25px;; bottom: 0;">
+			<div class="row">
+				<div class="col style="height: 100px;>
+					<p>Direccion: A Villamoros SN-I SINOMEX, Solidaridad, Navolato, Sin </p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<p>Telefono: 01 672 727 0038</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	{% endblock footer %}
+{% endblock content %}
