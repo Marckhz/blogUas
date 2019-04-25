@@ -20,6 +20,7 @@ from . import login_manager
 
 from .forms import LoginForm
 from .forms import NewPost
+from .forms import TeamForm
 
 from .model import User
 
@@ -163,6 +164,23 @@ def upload_carousel():
   return render_template('admin/dashboard.html')
 
 
+@page.route('/admin/dashboard/uploadTeam/', methods =['GET', 'POST'])
+def teamUpload():
+
+
+  teamForm = TeamForm(request.form)
+
+
+  if request.method == 'POST':
+    pass
+
+  return render_template('admin/dashboard.html', teamForm = TeamForm)
+
+
+
+
+
+
 @page.route('/show/<post_id>/', methods=['GET', 'POST'])
 def get_post(post_id):
 
@@ -196,5 +214,10 @@ def mision():
 
 @page.route('/home/directorio/', methods=['GET'])
 def directorio():
+
+
+
+
+
 
   return render_template('directorio.html')

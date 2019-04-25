@@ -121,6 +121,52 @@
 			  	
 			  </div>
 			  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+			  	<form action="/admin/dashboard/uploadTeam/" method="post" enctype="multipart/form-data">
+			  		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+			  		<div class="row">
+			  			<div class="col">
+			  				<div class="form-group">
+			  					{{ render_field( teamForm.name, class='form-control', placeholder='Nombre Completo') }}
+			  				</div>
+			  			</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col">
+			  				<div class="form-group">
+			  					{{ render_field( teamForm.position, class='form-control', placeholder='Puesto' )}}
+			  				</div>
+			  			</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col">
+			  				<div class="form-group">
+			  					{{ render_field( teamForm.phone, class='form-control', placeholder='Numero Telefonico') }}
+			  				</div>
+			  			</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col">
+			  				<div class="form-group">
+			  					{{ render_field( teamForm.email, class='form-control', placeholder = 'Correo Electronico')}}
+			  				</div>
+			  			</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col">
+			  				<div class="input-group mb-3">
+							  <div class="input-group-prepend">
+							    <span class="input-group-text">Foto Aqui</span>
+							  </div>
+							  <div class="custom-file">
+							    <input type="file" class="custom-file-input" id="inputGroupFile01" name="file">
+							    <label  class="custom-file-label" for="">upload</label>
+							  </div>
+							</div>
+			  			</div>
+			  		</div>
+			  		<button type="submit" class="btn btn-primary btn-block" style="width: 50%; margin:auto;">Submit</button>
+			  		
+			  	</form>
 
 			  </div>
 			</div>
