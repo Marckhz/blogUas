@@ -27,7 +27,7 @@
 		<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003B8E">
 			<div class="container">
 
-				<a class="navbar-brand" href="">
+				<a class="navbar-brand" href="{{ url_for('.index') }}">
 					<img src="{{ url_for('static', filename='img/uas.png') }}" alt="">
 				</a>
 				<div class="row ml-auto mx-auto text-center" style="color: white;">
@@ -50,10 +50,10 @@
 								<a class="nav-link" href="{{ url_for('.index') }}">Inicio</a>
 							</li>
 							<li class="nav-item active">
-								<a class="nav-link" href="#">Plan Curricular</a>
+								<a class="nav-link" href="{{ url_for('.programas') }}">Plan Curricular</a>
 							</li>
 							<li class="nav-item active">
-								<a class="nav-link" href="#">Calendario Escolar</a>
+								<a class="nav-link" href="{{ url_for('.calendario') }}">Calendario Escolar</a>
 							</li>
 							<li class="nav-item active">
 								<a class="nav-link" href="">Programas</a>
@@ -62,7 +62,7 @@
 								<a class="nav-link" href="">Organigramas</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="">Mision</a>
+								<a class="nav-link" href="{{ url_for('.mision') }}">Mision</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="">Directorio</a>
@@ -94,13 +94,13 @@
 										<a class="nav-link" href="{{ url_for('.calendario') }}">Calendario Escolar</a>
 									</li>
 									<li class="nav-item active">
-										<a class="nav-link" href="">Programas</a>
+										<a class="nav-link" href="{{ url_for('.programas') }}">Programas</a>
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="">Organigramas</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="">Mision</a>
+										<a class="nav-link" href="{{ url_for('.mision') }}">Mision</a>
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="">Directorio</a>
@@ -116,6 +116,7 @@
 {% block content %}
 {{ super() }}
 {% block footer %}
+
 
 		{% endblock footer%}
 		{% block container %}

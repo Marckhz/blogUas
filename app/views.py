@@ -170,6 +170,13 @@ def get_post(post_id):
   post = mongo.db.posts.find_one_or_404({"title":post_id})
   return render_template('show.html', post=post)
 
+@page.route('/plan_curricular/', methods = ['GET'])
+def plan_curricular():
+
+  return render_template('plan_curricular.html')
+
+
+
 
 @page.route('/home/calendario/', methods=['GET'])
 def calendario():
@@ -180,3 +187,14 @@ def calendario():
 def programas():
 
   return render_template('programas.html')
+
+@page.route('/home/mision/', methods = ['GET'])
+def mision():
+
+  return render_template('mision.html')
+
+
+@page.route('/home/directorio/', methods=['GET'])
+def directorio():
+
+  return render_template('directorio.html')

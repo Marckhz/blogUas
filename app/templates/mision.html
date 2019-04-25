@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+
+
+<div class="container" style="margin-top: 25px;">
+	<div class="row">
+		<div class="col">
+			<h1 class="text-center font-weight-bold">MISION Y VISION</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<img class="img-fluid rounded mx-auto d-block" src="{{ url_for('static', filename='img/navolato.png') }}" alt="">
+		</div>
+	</div>
+	<div class="row" style="margin-top: 50px;">
+		<div class="col-sm-6 text-white" style="background-color: #003B8E; padding: 50px;">
+			<h1 class="text-center font-weight-bold" style="margin-bottom: 25px;">MISION</h1>
+			<p style="   text-align: justify;">El subsistema del bachillerato de la Universidad Autónoma de Sinaloa tiene como misión la formación integral de bachilleres poseedores de una cultura general básica  de una actividad responsable hacia los demás, consigo mismo y con el medio; que contribuya a su desarrollo personal a través de la continuación de estudios de nivel suprior y/o la incorporación a la vida laboral de manera eficiente y con compromiso social. </p>
+		</div>
+		<div class="col-sm-6 text-white" style="background-color: #AF8514; padding: 50px;">
+			<h1 class="text-center font-weight-bold" style="margin-bottom: 25px;">VISION</h1>
+			<p style="text-align: justify;">La Unidad Académica Preparatoria Navolato y sus extensiones Sataya y Villa Juárez cuentan con la infraestructura necesaria para el óptimo funcionamiento y espacios escolares modernos que favorecen la formación integral de nuestros estudiantes, a través de un sistema de gestión de calidad que la conduce al desarrollo de mejora continua. Contamos con un plan de estudios actualizado e implementado por personal docente altamente capacitado pedagógica y profesionalmente, agrupado  en academias consolidadas.  Asimismo, la vida académica y administrativa y de gestión es normada por reglamentos  que garantizan  la transparencia en la rendición de cuentas. </p>
+		</div>
+	</div>
+</div>
+
+
+	{% block footer %}
+	<footer>
+		<div class="container-fluid footy text-center" style="background-color: #003B8E; color: white; padding: 25px;">
+			<div class="row">
+				<div class="col style="height: 100px;>
+					<p>Direccion: A Villamoros SN-I SINOMEX, Solidaridad, Navolato, Sin </p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<p>Telefono: 01 672 727 0038</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	{% endblock footer %}
+
+{% endblock content%}

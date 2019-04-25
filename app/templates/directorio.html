@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<h1 class="text-center font-weight-bold" style="margin-top: 25px;">Directorio</h1>
+		</div>
+	</div>
+	<div id="accordion" style="margin-top: 25px;">
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="card">
+				    <div class="card-header" id="headingOne">
+				      <h5 class="mb-0">
+				        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				          Direccion
+				        </button>
+				      </h5>
+				    </div>
+				    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+				      <div class="card-body">
+				      	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio enim nesciunt itaque maxime porro laudantium sequi perferendis nobis ratione suscipit placeat, illo doloremque possimus perspiciatis quidem ut cumque voluptatum ea?</p>
+				 	</div>
+				    </div>
+				</div>			
+			</div>
+			<div class="col-sm-4">
+				<div class="card">
+				    <div class="card-header" id="headingOne">
+				      <h5 class="mb-0">
+				        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+				          Secretaria Academica
+				        </button>
+				      </h5>
+				    </div>
+				    <div id="collapseTwo" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+				      <div class="card-body">
+				      	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio enim nesciunt itaque maxime porro laudantium sequi perferendis nobis ratione suscipit placeat, illo doloremque possimus perspiciatis quidem ut cumque voluptatum ea?</p>
+				 		</div>
+				    </div>
+				</div>			
+			</div>
+			<div class="col-sm-4">
+				<div class="card">
+				    <div class="card-header" id="headingOne">
+				      <h5 class="mb-0">
+				        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				          Secretaria Administrativa
+				        </button>
+				      </h5>
+				    </div>
+				    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+				      <div class="card-body">
+				      	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio enim nesciunt itaque maxime porro laudantium sequi perferendis nobis ratione suscipit placeat, illo doloremque possimus perspiciatis quidem ut cumque voluptatum ea?</p>
+				 	</div>
+				    </div>
+				</div>			
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+{% block footer %}
+	<footer>
+		<div class="container-fluid footy text-center" style="background-color: #003B8E; color: white; padding: 25px;">
+			<div class="row">
+				<div class="col style="height: 100px;>
+					<p>Direccion: A Villamoros SN-I SINOMEX, Solidaridad, Navolato, Sin </p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<p>Telefono: 01 672 727 0038</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+{% endblock %}
+
+{% endblock content %}
+
+
+
+
