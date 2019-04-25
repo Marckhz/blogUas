@@ -3,7 +3,6 @@ from flask_bootstrap import Bootstrap
 from flask_wtf.csrf import CSRFProtect
 
 from flask_pymongo import PyMongo 
-from flask_mail import Mail
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt 
 import urllib.parse
@@ -13,7 +12,6 @@ app = Flask(__name__)
 
 boostrap = Bootstrap()
 csrf = CSRFProtect()
-mail = Mail()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 
