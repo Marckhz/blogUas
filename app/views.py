@@ -183,7 +183,7 @@ def teamUpload():
                           "phone":teamForm.phone.data,
                           "email":teamForm.email.data,
                           "image":file_to_b64.decode('utf-8') })
-    
+
     flash('Personal Agregado', 'success')
 
   return render_template('admin/dashboard.html', teamForm = teamForm, form= form)
