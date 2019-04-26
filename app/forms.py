@@ -7,20 +7,21 @@ from wtforms.widgets import TextArea
 
 class LoginForm(Form):
 
-	username = StringField('username', [validators.Length(min=6, max = 50)] )
-	password = StringField('password', [validators.Length(min=6, max = 50)] )
+	username = StringField('username', [validators.required(),  validators.Length(min=6, max = 50)] )
+	password = StringField('password', [validators.required(), validators.Length(min=6, max = 50)] )
 
 
 
 class NewPost(Form):
 
-	title = StringField('Titulo', [validators.Length(min=1, max = 50)] )
-	body = StringField('Contentido', [validators.Length(min=1, max= 10000000)], widget= TextArea())
+	title = StringField('Titulo', [validators.required(),  validators.Length(min=1, max = 50)] )
+	body = StringField('Contentido', [validators.required(), validators.Length(min=1, max= 10000000)], widget= TextArea())
+	category =  SelectField('Categoria', choices=[('Academica', 'Academica'), ('Cultural', 'Cultural'), ('Deportiva', 'Deportiva') ])
 
 
 class TeamForm(Form):
 
-	name = StringField('Nombre', [validators.Length(min=4, max=20)] )
+	name = StringField('Nombre', [validators.required(), validators.Length(min=4, max=20)] )
 	departament = SelectField('Departamento', choices = [
 												('Direccion', 'Direccion'), 
 												('Secreteria Academica','Secreataria Academica'), 
@@ -38,6 +39,6 @@ class TeamForm(Form):
 												('Extension Sataya','Extension Sataya') 
 												] 
 							)
-	charge = StringField('Cargo', [validators.Length(min=1, max=50)])
-	phone = StringField('Numero Telefonico', [validators.Length(min=10, max=10)])
-	email = StringField('Correo Electronico', [validators.Length(min=6, max=50)])
+	charge = StringField('Cargo', [validators.required(), validators.Length(min=1, max=50)])
+	phone = StringField('Numero Telefonico', [validators.required(), validators.Length(min=10, max=10)])
+	email = StringField('Correo Electronico', [validators.required(), validators.Length(min=6, max=50)])

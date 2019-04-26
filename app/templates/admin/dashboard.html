@@ -2,6 +2,8 @@
 {% from 'helpers/_forms.html' import render_field %}
 
 
+
+
 {% block content %}
 	<div class="container">
 		<div class="row">
@@ -29,7 +31,13 @@
 			    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Nuevo Post</a>
 			  </li>
 			  <li class="nav-item">
-			  	<a class="nav-link" id ="team-tab" data-toggle="tab" href="#team" role="tab" aria-contros="team" aria-selected ="false">Agreagar Personal</a>
+			  	<a class="nav-link" id ="team-tab" data-toggle="tab" href="#team" role="tab" aria-controls="team" aria-selected ="false">Agreagar Personal</a>
+			  </li>
+			  <li class="nav-item">
+			  	<a class="nav-link" id="deleteTeam-tab" data-toggle="tab" href="#deletePost" role="tab" aria-controls="deletepost" aria-selected="false">Borrar Post</a>
+			  </li>
+			  <li class="nav-item">
+			  	<a class="nav-link" id="editTeam-tab" data-toggle="tab" href="#editTeam" role="tab" aria-controls="editTeam" aria-selected="false">Editar Personal</a>
 			  </li>
 			</ul>
 			<div class="tab-content" id="myTabContent">
@@ -91,14 +99,21 @@
 			  		<div class="row">
 			  			<div class="col">
 			  				<div class="form-group">
-			  					{{ render_field(form.title, class='form-control', placeholder='titulo')}}
+			  					{{ render_field(form.title, class='form-control', placeholder='Titulo')}}
 			  				</div>
 			  			</div>
 			  		</div>
 			  		<div class="row">
 			  			<div class="col">
 			  				<div class="form-group">
-			  					{{ render_field(form.body, class='form-control', placeholder= 'body',rows=10 )}}
+			  					{{ render_field(form.body, class='form-control', placeholder = 'Contenido',rows=10 )}}
+			  				</div>
+			  			</div>
+			  		</div>
+			  		<div class="row">
+			  			<div class="col">
+			  				<div class="form-group">
+			  					{{ render_field(form.category, class='form-control', placeholder = 'Categoria') }}
 			  				</div>
 			  			</div>
 			  		</div>
@@ -173,10 +188,128 @@
 			  			</div>
 			  		</div>
 			  		<button type="submit" class="btn btn-primary btn-block" style="width: 50%; margin:auto;">Submit</button>
-			  		
 			  	</form>
-
 			  </div>
+			  <div class="tab-pane fade" id="deletePost" role="tabpanel" aria-labelledby="deletepost-tab">
+			  	<div class="table-responsive">
+			  		<table class="table">
+			  			<thead class="thead-dark">
+			  				<tr>
+			  					<th scope="col">Fecha Publicada</th>
+			  					<th scope="col">Titulo</th>
+			  					<th></th>
+			  				</tr>
+			  			</thead>
+			  			{% for item in posts %}
+			  			<tbody>
+			  				<tr>
+			  					<th scope="row">{{ item.posted_date }}</th>
+			  						<td>{{ item.title }}</td>
+			  						<td>
+			  							<a href="{{ url_for('.delete_post', post_id = item.title) }}">
+			  								<button type="submit" class="btn btn-danger">Eliminar</button>
+			  							</a>
+			  						</td>			  				
+			  					</tr>
+			  			</tbody>
+			  			{% endfor %}
+			  		</table>
+			  	</div>
+			  </div>
+			   <div class="tab-pane fade" id="editTeam" role="tabpanel" aria-labelledby="editTeam-tab">
+			  	<div class="table-responsive">
+			  		<table class="table">
+			  			<thead class="thead-dark">
+			  				<tr>
+			  					<th scope="col">Nombre</th>
+			  					<th scope="col">Puesto</th>
+			  					<th></th>
+			  				</tr>
+			  			</thead>
+			  			{% for persona in personal %}
+			  			<tbody>
+			  				<tr>
+			  					<th scope="row">{{ persona.name }}</th>
+			  						<td>{{ persona.charge }}</td>
+			  						<td>
+			  							<button type="submit" class="btn btn-info" data-toggle ="modal" data-target="#thismodal">Editar</button>
+			  							
+				  							<div class="modal fade" id="thismodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+												  <div class="modal-dialog" role="document">
+												    <div class="modal-content">
+												      <div class="modal-header">
+													
+												        <h5 class="modal-title" id="exampleModalLongTitle">Editar Personal</h5>
+												        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												          <span aria-hidden="true">&times;</span>
+												        </button>
+												      </div>
+												      <div class="modal-body">
+												      	<form action="{{ url_for('.update_team', team_id = persona.name ) }}"  method="post" enctype="multipart/form-data">
+													  		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+													  		<div class="row">
+													  			<div class="col">
+													  				<div class="form-group">
+													  					{{ render_field( teamForm.name, class='form-control', placeholder='Nombre Completo') }}
+													  				</div>
+													  			</div>
+													  		</div>
+													  		<div class="row">
+													  			<div class="col">
+													  				<div class="form-group">
+													  					{{ render_field( teamForm.departament, class='form-control', placeholder='Departamento')}}
+													  				</div>
+													  			</div>
+													  		</div>
+													  		<div class="row">
+													  			<div class="col">
+													  				<div class="form-group">
+													  					{{ render_field (teamForm.charge, class='form-control', placeholder='Puesto')}}
+													  				</div>
+													  			</div>
+													  		</div>
+													  		<div class="row">
+													  			<div class="col">
+													  				<div class="form-group">
+													  					{{ render_field( teamForm.phone, class='form-control', placeholder='Numero Telefonico')}}
+													  				</div>
+													  			</div>
+													  		</div>
+													  		<div class="row">
+													  			<div class="col">
+													  				<div class="form-group">
+													  					{{ render_field( teamForm.email, class='form-control', placeholder = 'Correo Electronico')}}
+													  				</div>
+													  			</div>
+													  		</div>
+													  		<div class="row">
+													  			<div class="col">
+													  				<div class="input-group mb-3">
+																	  <div class="input-group-prepend">
+																	    <span class="input-group-text">Foto Aqui</span>
+																	  </div>
+																	  <div class="custom-file">
+																	    <input type="file" class="custom-file-input" id="inputGroupFile01" name="file">
+																	    <label  class="custom-file-label" for="">upload</label>
+																	  </div>
+																	</div>
+													  			</div>
+													  		</div>
+													  		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+													        <button type="submit" class="btn btn-primary">Actualizar</button>
+													     </div>
+												      </form>
+												    </div>
+												  </div>
+												</div>
+			  						</td>			  				
+			  					</tr>
+			  			</tbody>
+			  			{% endfor %}
+			  		</table>
+			  	</div>
+			  </div>
+
 			</div>
 		</div>
 	{% endblock %}

@@ -29,21 +29,19 @@ import base64
 page = Blueprint('page', __name__)
 
 
+
 @login_manager.user_loader
 def load_user(username):
   mongo_user = mongo.db.users.find_one({"username":username})
   return User(mongo_user['username'])
 
 
-@page.route('/', methods =['GET', 'POST'])
+@page.route('/', methods =['GET'])
 def index():
 
   posts = mongo.db.posts.find({})
 
   carrusel = mongo.db.caraousel.find({})
-
-  #for item in carousel:
-   # print(item['image_one'])
 
   return render_template('home.html',posts=posts, carrusel=carrusel)
 
@@ -92,7 +90,12 @@ def dashboard():
   form = NewPost()
   teamForm = TeamForm()
 
-  return render_template('admin/dashboard.html', form=form, teamForm = TeamForm() )
+
+  posts = mongo.db.posts.find({})
+
+  personal = mongo.db.team.find({})
+
+  return render_template('admin/dashboard.html', form=form, posts = posts, personal = personal,  teamForm = TeamForm() )
 
 
 @page.route('/admin/dashboard/post/', methods = ['GET', 'POST'])
@@ -110,6 +113,7 @@ def new_post():
                                           "title":form.title.data,
                                           "body":form.body.data,
                                           "posted_date":datetime.today(),
+                                          "categoria":form.category.data,
                                           "image":file_to_b64.decode("utf-8")
               
                                           })
@@ -124,8 +128,6 @@ def new_post():
     flash('upps...hay un problema', 'danger')
   return render_template('admin/dashboard.html', title='add problem', form=form, teamForm = teamForm)
   
-
-
 
 @page.route('/admin/dashboard/caraousel/', methods= ['GET', 'POST'])
 @login_required
@@ -167,8 +169,8 @@ def upload_carousel():
 
 
 @page.route('/admin/dashboard/uploadTeam/', methods =['GET', 'POST'])
+@login_required
 def teamUpload():
-
 
   teamForm = TeamForm(request.form)
   form = NewPost()
@@ -185,6 +187,7 @@ def teamUpload():
                           "image":file_to_b64.decode('utf-8') })
 
     flash('Personal Agregado', 'success')
+    return redirect(url_for('.dashboard'))
 
   return render_template('admin/dashboard.html', teamForm = teamForm, form= form)
 
@@ -216,6 +219,11 @@ def mision():
 
   return render_template('mision.html')
 
+@page.route('/home/organigrama/', methods = ['GET'])
+def organigrama():
+  return render_template('organigrama.html')
+
+
 
 @page.route('/home/directorio/', methods = ['GET'])
 def directorio():
@@ -224,10 +232,58 @@ def directorio():
 
   return render_template('directorio.html', team_query = team_query)
 
-
-
 @page.route('/home/directorio/show/<position_id>/', methods=['GET'])
 def get_team(position_id):
 
   personal = mongo.db.team.find_one_or_404({"departament":position_id})
   return render_template('show_personal.html', personal = personal)
+
+
+@page.route('/home/noticias/categoria/<category_id>/', methods = ['GET'])
+def get_by_category(category_id):
+
+
+  query =  mongo.db.posts.find({"category":category_id})
+  in_section = category_id
+   
+  
+  return render_template('show_category.html', query = query, in_section = in_section)
+
+
+@page.route('/admin/dashboard/<post_id>/', methods = ['GET', 'POST'])
+@login_required
+def delete_post(post_id):
+
+  post = mongo.db.posts.find_one_and_delete({'title':post_id})
+
+  flash('Publicacion eliminada', 'warning')
+
+  return redirect(url_for('.dashboard', post = post) )
+
+@page.route('/admin/dashboard/edit/<team_id>/', methods =['GET', 'POST'])
+@login_required
+def update_team(team_id):
+
+  teamForm = TeamForm(request.form)
+  form = NewPost()
+  if request.method == 'POST':
+    file = request.files['file']
+    file_to_b64 = base64.b64encode(file.read() )
+    mongo.db.team.find_one_and_update({"name":team_id},
+                                              {"$set":{
+                                                    "name":teamForm.name.data,
+                                                    "departament":teamForm.departament.data,
+                                                    "charge":teamForm.charge.data,
+                                                    "phone":teamForm.phone.data,
+                                                    "email":teamForm.email.data,
+                                                    "image":file_to_b64.decode("utf-8")
+                                              } 
+                                            })
+    flash('Personal Actualizado', 'success')
+    return redirect(url_for('.dashboard'))
+
+
+  return redirect('.dashboard')
+
+
+
