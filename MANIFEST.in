@@ -1,0 +1,4 @@
+graft uas/static/
+graft uas/templates/
+global-exclude *.pyc
+

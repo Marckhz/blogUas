@@ -285,5 +285,10 @@ def update_team(team_id):
 
   return redirect('.dashboard')
 
+@page.route('/home/servicio_social/', methods = ['GET'])
+def servicio_social():
+
+  return render_template('s_social.html')
+
 
 
